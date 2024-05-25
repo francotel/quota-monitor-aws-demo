@@ -349,44 +349,46 @@
         "LayerName": "QM-UtilsLayer"
       }
     },
-    # "QMSlackNotifierQMSlackNotifierEventsRuleC3528E53": {
-    #   "Type": "AWS::Events::Rule",
-    #   "Properties": {
-    #     "Description": "SO0005 quota-monitor-for-aws - QM-SlackNotifier-EventsRule",
-    #     "EventBusName": {
-    #       "Ref": "QMBusFF5C6C0C"
-    #     },
-    #     "EventPattern": {
-    #       "detail": {
-    #         "status": [
-    #           "WARN",
-    #           "ERROR"
-    #         ]
-    #       },
-    #       "detail-type": [
-    #         "Trusted Advisor Check Item Refresh Notification",
-    #         "Service Quotas Utilization Notification"
-    #       ],
-    #       "source": [
-    #         "aws.trustedadvisor",
-    #         "aws-solutions.quota-monitor"
-    #       ]
-    #     },
-    #     "State": "ENABLED",
-    #     "Targets": [
-    #       {
-    #         "Arn": {
-    #           "Fn::GetAtt": [
-    #             "QMSlackNotifierQMSlackNotifierLambda95713661",
-    #             "Arn"
-    #           ]
-    #         },
-    #         "Id": "Target0"
-    #       }
-    #     ]
-    #   },
-    #   "Condition": "SlackTrueCondition"
-    # },
+
+    "QMSlackNotifierQMSlackNotifierEventsRuleC3528E53": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - QM-SlackNotifier-EventsRule",
+        "EventBusName": {
+          "Ref": "QMBusFF5C6C0C"
+        },
+        "EventPattern": {
+          "detail": {
+            "status": [
+              "WARN",
+              "ERROR"
+            ]
+          },
+          "detail-type": [
+            "Trusted Advisor Check Item Refresh Notification",
+            "Service Quotas Utilization Notification"
+          ],
+          "source": [
+            "aws.trustedadvisor",
+            "aws-solutions.quota-monitor"
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "QMSlackNotifierQMSlackNotifierLambda95713661",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Condition": "SlackTrueCondition"
+    },
+    
   #   "QMSlackNotifierQMSlackNotifierEventsRuleAllowEventRulequotamonitorhubnoouQMSlackNotifierQMSlackNotifierLambda52C322580E2041A7": {
   #     "Type": "AWS::Lambda::Permission",
   #     "Properties": {
@@ -410,6 +412,7 @@
   #     },
   #     "Condition": "SlackTrueCondition"
   #   },
+
     "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
@@ -590,6 +593,7 @@
       },
       "Condition": "SlackTrueCondition"
     },
+
     "QMSlackNotifierQMSlackNotifierLambda95713661": {
   # checkov:skip=CKV_AWS_115: ADD REASON
   # checkov:skip=CKV_AWS_117: ADD REASON
@@ -657,6 +661,7 @@
       ],
       "Condition": "SlackTrueCondition"
     },
+
   #   "QMSlackNotifierQMSlackNotifierLambdaEventInvokeConfig5340A982": {
   #     "Type": "AWS::Lambda::EventInvokeConfig",
   #     "Properties": {
