@@ -724,6 +724,7 @@
   #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SNSPublisherFunction/QM-SNSPublisherFunction-EventsRule/Resource"
   #     }
   #   },
+  
   #   "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRuleAllowEventRulequotamonitorhubnoouQMSNSPublisherFunctionQMSNSPublisherFunctionLambda76203A7F3F46BC24": {
   #     "Type": "AWS::Lambda::Permission",
   #     "Properties": {
@@ -746,6 +747,7 @@
   #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SNSPublisherFunction/QM-SNSPublisherFunction-EventsRule/AllowEventRulequotamonitorhubnoouQMSNSPublisherFunctionQMSNSPublisherFunctionLambda76203A7F"
   #     }
   #   },
+  
   #   "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueue72FF519A": {
   #     "Type": "AWS::SQS::Queue",
   #     "Properties": {
@@ -856,6 +858,7 @@
   #       }
   #     }
   #   },
+
   #   "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaServiceRoleDefaultPolicy1E6E152C": {
   #     "Type": "AWS::IAM::Policy",
   #     "Properties": {
@@ -964,6 +967,7 @@
   #       }
   #     }
   #   },
+
   #   "QMSNSPublisherFunctionQMSNSPublisherFunctionLambda8BD2DBC1": {
   #     "Type": "AWS::Lambda::Function",
   #     "Properties": {
@@ -1037,6 +1041,7 @@
   #       }
   #     }
   #   },
+
   #   "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaEventInvokeConfig7A963AA0": {
   #     "Type": "AWS::Lambda::EventInvokeConfig",
   #     "Properties": {
@@ -1115,31 +1120,23 @@
   #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Summarizer-EventQueue/QM-Summarizer-EventQueue-EventsRule/Resource"
   #     }
   #   },
-  #   "QMSummarizerEventQueueQMSummarizerEventQueueQueue95FCCD2A": {
-  #     "Type": "AWS::SQS::Queue",
-  #     "Properties": {
-  #       "KmsMasterKeyId": {
-  #         "Fn::GetAtt": [
-  #           "KMSHubQMEncryptionKeyA80F8C05",
-  #           "Arn"
-  #         ]
-  #       },
-  #       "VisibilityTimeout": 60
-  #     },
-  #     "UpdateReplacePolicy": "Delete",
-  #     "DeletionPolicy": "Delete",
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Summarizer-EventQueue/QM-Summarizer-EventQueue-Queue/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "dlq not implemented on sqs, will evaluate in future if there is need",
-  #             "id": "AwsSolutions-SQS3"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+
+    "QMSummarizerEventQueueQMSummarizerEventQueueQueue95FCCD2A": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName" : "sqs-summarizer-cf",
+        "KmsMasterKeyId": {
+          "Fn::GetAtt": [
+            "KMSHubQMEncryptionKeyA80F8C05",
+            "Arn"
+          ]
+        },
+        "VisibilityTimeout": 60
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+
   #   "QMSummarizerEventQueueQMSummarizerEventQueueQueuePolicyE7E1F6D8": {
   #     "Type": "AWS::SQS::QueuePolicy",
   #     "Properties": {
