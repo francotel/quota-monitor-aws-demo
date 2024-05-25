@@ -349,44 +349,44 @@
         "LayerName": "QM-UtilsLayer"
       }
     },
-    "QMSlackNotifierQMSlackNotifierEventsRuleC3528E53": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "Description": "SO0005 quota-monitor-for-aws - QM-SlackNotifier-EventsRule",
-        "EventBusName": {
-          "Ref": "QMBusFF5C6C0C"
-        },
-        "EventPattern": {
-          "detail": {
-            "status": [
-              "WARN",
-              "ERROR"
-            ]
-          },
-          "detail-type": [
-            "Trusted Advisor Check Item Refresh Notification",
-            "Service Quotas Utilization Notification"
-          ],
-          "source": [
-            "aws.trustedadvisor",
-            "aws-solutions.quota-monitor"
-          ]
-        },
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "QMSlackNotifierQMSlackNotifierLambda95713661",
-                "Arn"
-              ]
-            },
-            "Id": "Target0"
-          }
-        ]
-      },
-      "Condition": "SlackTrueCondition"
-    },
+    # "QMSlackNotifierQMSlackNotifierEventsRuleC3528E53": {
+    #   "Type": "AWS::Events::Rule",
+    #   "Properties": {
+    #     "Description": "SO0005 quota-monitor-for-aws - QM-SlackNotifier-EventsRule",
+    #     "EventBusName": {
+    #       "Ref": "QMBusFF5C6C0C"
+    #     },
+    #     "EventPattern": {
+    #       "detail": {
+    #         "status": [
+    #           "WARN",
+    #           "ERROR"
+    #         ]
+    #       },
+    #       "detail-type": [
+    #         "Trusted Advisor Check Item Refresh Notification",
+    #         "Service Quotas Utilization Notification"
+    #       ],
+    #       "source": [
+    #         "aws.trustedadvisor",
+    #         "aws-solutions.quota-monitor"
+    #       ]
+    #     },
+    #     "State": "ENABLED",
+    #     "Targets": [
+    #       {
+    #         "Arn": {
+    #           "Fn::GetAtt": [
+    #             "QMSlackNotifierQMSlackNotifierLambda95713661",
+    #             "Arn"
+    #           ]
+    #         },
+    #         "Id": "Target0"
+    #       }
+    #     ]
+    #   },
+    #   "Condition": "SlackTrueCondition"
+    # },
   #   "QMSlackNotifierQMSlackNotifierEventsRuleAllowEventRulequotamonitorhubnoouQMSlackNotifierQMSlackNotifierLambda52C322580E2041A7": {
   #     "Type": "AWS::Lambda::Permission",
   #     "Properties": {
@@ -410,314 +410,253 @@
   #     },
   #     "Condition": "SlackTrueCondition"
   #   },
-  #   "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7": {
-  #     "Type": "AWS::SQS::Queue",
-  #     "Properties": {
-  #       "KmsMasterKeyId": {
-  #         "Fn::GetAtt": [
-  #           "KMSHubQMEncryptionKeyA80F8C05",
-  #           "Arn"
-  #         ]
-  #       }
-  #     },
-  #     "UpdateReplacePolicy": "Delete",
-  #     "DeletionPolicy": "Delete",
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SlackNotifier/QM-SlackNotifier-Lambda-Dead-Letter-Queue/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "Queue itself is dead-letter queue",
-  #             "id": "AwsSolutions-SQS3"
-  #           }
-  #         ]
-  #       }
-  #     },
-  #     "Condition": "SlackTrueCondition"
-  #   },
-  #   "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueuePolicy719E4C6A": {
-  #     "Type": "AWS::SQS::QueuePolicy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sqs:*",
-  #             "Condition": {
-  #               "Bool": {
-  #                 "aws:SecureTransport": "false"
-  #               }
-  #             },
-  #             "Effect": "Deny",
-  #             "Principal": {
-  #               "AWS": "*"
-  #             },
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "Queues": [
-  #         {
-  #           "Ref": "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SlackNotifier/QM-SlackNotifier-Lambda-Dead-Letter-Queue/Policy/Resource"
-  #     },
-  #     "Condition": "SlackTrueCondition"
-  #   },
-  #   "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D": {
-  #     "Type": "AWS::IAM::Role",
-  #     "Properties": {
-  #       "AssumeRolePolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sts:AssumeRole",
-  #             "Effect": "Allow",
-  #             "Principal": {
-  #               "Service": "lambda.amazonaws.com"
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "ManagedPolicyArns": [
-  #         {
-  #           "Fn::Join": [
-  #             "",
-  #             [
-  #               "arn:",
-  #               {
-  #                 "Ref": "AWS::Partition"
-  #               },
-  #               ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  #             ]
-  #           ]
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SlackNotifier/QM-SlackNotifier-Lambda/ServiceRole/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "Actions restricted on kms key ARN. Only actions that do not support resource-level permissions have * in resource",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     },
-  #     "Condition": "SlackTrueCondition"
-  #   },
-  #   "QMSlackNotifierQMSlackNotifierLambdaServiceRoleDefaultPolicy4C4D219B": {
-  #     "Type": "AWS::IAM::Policy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sqs:SendMessage",
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": [
-  #               "kms:Encrypt",
-  #               "kms:Decrypt",
-  #               "kms:CreateGrant"
-  #             ],
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "KMSHubQMEncryptionKeyA80F8C05",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": "kms:ListAliases",
-  #             "Effect": "Allow",
-  #             "Resource": "*"
-  #           },
-  #           {
-  #             "Action": "ssm:GetParameter",
-  #             "Effect": "Allow",
-  #             "Resource": [
-  #               {
-  #                 "Fn::Join": [
-  #                   "",
-  #                   [
-  #                     "arn:",
-  #                     {
-  #                       "Ref": "AWS::Partition"
-  #                     },
-  #                     ":ssm:",
-  #                     {
-  #                       "Ref": "AWS::Region"
-  #                     },
-  #                     ":",
-  #                     {
-  #                       "Ref": "AWS::AccountId"
-  #                     },
-  #                     ":parameter",
-  #                     {
-  #                       "Ref": "QMSlackHook4F1AD495"
-  #                     }
-  #                   ]
-  #                 ]
-  #               },
-  #               {
-  #                 "Fn::Join": [
-  #                   "",
-  #                   [
-  #                     "arn:",
-  #                     {
-  #                       "Ref": "AWS::Partition"
-  #                     },
-  #                     ":ssm:",
-  #                     {
-  #                       "Ref": "AWS::Region"
-  #                     },
-  #                     ":",
-  #                     {
-  #                       "Ref": "AWS::AccountId"
-  #                     },
-  #                     ":parameter",
-  #                     {
-  #                       "Ref": "QMNotificationMutingConfig3B7948BA"
-  #                     }
-  #                   ]
-  #                 ]
-  #               }
-  #             ]
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "PolicyName": "QMSlackNotifierQMSlackNotifierLambdaServiceRoleDefaultPolicy4C4D219B",
-  #       "Roles": [
-  #         {
-  #           "Ref": "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SlackNotifier/QM-SlackNotifier-Lambda/ServiceRole/DefaultPolicy/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "Actions restricted on kms key ARN. Only actions that do not support resource-level permissions have * in resource",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     },
-  #     "Condition": "SlackTrueCondition"
-  #   },
-  #   "QMSlackNotifierQMSlackNotifierLambda95713661": {
-  #     "Type": "AWS::Lambda::Function",
-  #     "Properties": {
-  #       "Code": {
-  #         "S3Bucket": {
-  #           "Fn::Sub": "solutions-${AWS::Region}"
-  #         },
-  #         "S3Key": "quota-monitor-for-aws/v6.2.6/asset67377473f60463c7d96405e09c60149f1ccfec5fb5130689ffb3c7b488d38515.zip"
-  #       },
-  #       "DeadLetterConfig": {
-  #         "TargetArn": {
-  #           "Fn::GetAtt": [
-  #             "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7",
-  #             "Arn"
-  #           ]
-  #         }
-  #       },
-  #       "Description": "SO0005 quota-monitor-for-aws - QM-SlackNotifier-Lambda",
-  #       "Environment": {
-  #         "Variables": {
-  #           "SLACK_HOOK": {
-  #             "Fn::FindInMap": [
-  #               "QuotaMonitorMap",
-  #               "SSMParameters",
-  #               "SlackHook"
-  #             ]
-  #           },
-  #           "QM_NOTIFICATION_MUTING_CONFIG_PARAMETER": {
-  #             "Ref": "QMNotificationMutingConfig3B7948BA"
-  #           },
-  #           "LOG_LEVEL": "info",
-  #           "CUSTOM_SDK_USER_AGENT": "AwsSolution/SO0005/v6.2.6",
-  #           "VERSION": "v6.2.6",
-  #           "SOLUTION_ID": "SO0005"
-  #         }
-  #       },
-  #       "Handler": "index.handler",
-  #       "KmsKeyArn": {
-  #         "Fn::GetAtt": [
-  #           "KMSHubQMEncryptionKeyA80F8C05",
-  #           "Arn"
-  #         ]
-  #       },
-  #       "Layers": [
-  #         {
-  #           "Ref": "QMUtilsLayerQMUtilsLayerLayer80D5D993"
-  #         }
-  #       ],
-  #       "MemorySize": 128,
-  #       "Role": {
-  #         "Fn::GetAtt": [
-  #           "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D",
-  #           "Arn"
-  #         ]
-  #       },
-  #       "Runtime": "nodejs18.x",
-  #       "Timeout": 60
-  #     },
-  #     "DependsOn": [
-  #       "QMSlackNotifierQMSlackNotifierLambdaServiceRoleDefaultPolicy4C4D219B",
-  #       "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D"
-  #     ],
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SlackNotifier/QM-SlackNotifier-Lambda/Resource",
-  #       "aws:asset:path": "asset.67377473f60463c7d96405e09c60149f1ccfec5fb5130689ffb3c7b488d38515.zip",
-  #       "aws:asset:is-bundled": false,
-  #       "aws:asset:property": "Code",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     },
-  #     "Condition": "SlackTrueCondition"
-  #   },
+    "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName" : "sqs-dlq-lambda-notifier-cf",
+        "KmsMasterKeyId": {
+          "Fn::GetAtt": [
+            "KMSHubQMEncryptionKeyA80F8C05",
+            "Arn"
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Condition": "SlackTrueCondition"
+    },
+    "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueuePolicy719E4C6A": {
+      "Type": "AWS::SQS::QueuePolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Queues": [
+          {
+            "Ref": "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7"
+          }
+        ]
+      },
+      "Condition": "SlackTrueCondition"
+    },
+    "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName" : iam-role-lambda-notifier,
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Condition": "SlackTrueCondition"
+    },
+    "QMSlackNotifierQMSlackNotifierLambdaServiceRoleDefaultPolicy4C4D219B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:SendMessage",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:CreateGrant"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "KMSHubQMEncryptionKeyA80F8C05",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "kms:ListAliases",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter",
+                      {
+                        "Ref": "QMSlackHook4F1AD495"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter",
+                      {
+                        "Ref": "QMNotificationMutingConfig3B7948BA"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "QMSlackNotifierQMSlackNotifierLambdaServiceRoleDefaultPolicy4C4D219B",
+        "Roles": [
+          {
+            "Ref": "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D"
+          }
+        ]
+      },
+      "Condition": "SlackTrueCondition"
+    },
+    "QMSlackNotifierQMSlackNotifierLambda95713661": {
+  # checkov:skip=CKV_AWS_115: ADD REASON
+  # checkov:skip=CKV_AWS_117: ADD REASON
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "FunctionName" : "lambda-notifier-cf",
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "quota-monitor-for-aws/v6.2.6/asset67377473f60463c7d96405e09c60149f1ccfec5fb5130689ffb3c7b488d38515.zip"
+        },
+        "DeadLetterConfig": {
+          "TargetArn": {
+            "Fn::GetAtt": [
+              "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7",
+              "Arn"
+            ]
+          }
+        },
+        "Description": "SO0005 quota-monitor-for-aws - QM-SlackNotifier-Lambda",
+        "Environment": {
+          "Variables": {
+            "SLACK_HOOK": {
+              "Fn::FindInMap": [
+                "QuotaMonitorMap",
+                "SSMParameters",
+                "SlackHook"
+              ]
+            },
+            "QM_NOTIFICATION_MUTING_CONFIG_PARAMETER": {
+              "Ref": "QMNotificationMutingConfig3B7948BA"
+            },
+            "LOG_LEVEL": "info",
+            "CUSTOM_SDK_USER_AGENT": "AwsSolution/SO0005/v6.2.6",
+            "VERSION": "v6.2.6",
+            "SOLUTION_ID": "SO0005"
+          }
+        },
+        "Handler": "index.handler",
+        "KmsKeyArn": {
+          "Fn::GetAtt": [
+            "KMSHubQMEncryptionKeyA80F8C05",
+            "Arn"
+          ]
+        },
+        "Layers": [
+          {
+            "Ref": "QMUtilsLayerQMUtilsLayerLayer80D5D993"
+          }
+        ],
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 60
+      },
+      "DependsOn": [
+        "QMSlackNotifierQMSlackNotifierLambdaServiceRoleDefaultPolicy4C4D219B",
+        "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D"
+      ],
+      "Condition": "SlackTrueCondition"
+    },
   #   "QMSlackNotifierQMSlackNotifierLambdaEventInvokeConfig5340A982": {
   #     "Type": "AWS::Lambda::EventInvokeConfig",
   #     "Properties": {
