@@ -389,29 +389,26 @@
       "Condition": "SlackTrueCondition"
     },
     
-  #   "QMSlackNotifierQMSlackNotifierEventsRuleAllowEventRulequotamonitorhubnoouQMSlackNotifierQMSlackNotifierLambda52C322580E2041A7": {
-  #     "Type": "AWS::Lambda::Permission",
-  #     "Properties": {
-  #       "Action": "lambda:InvokeFunction",
-  #       "FunctionName": {
-  #         "Fn::GetAtt": [
-  #           "QMSlackNotifierQMSlackNotifierLambda95713661",
-  #           "Arn"
-  #         ]
-  #       },
-  #       "Principal": "events.amazonaws.com",
-  #       "SourceArn": {
-  #         "Fn::GetAtt": [
-  #           "QMSlackNotifierQMSlackNotifierEventsRuleC3528E53",
-  #           "Arn"
-  #         ]
-  #       }
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SlackNotifier/QM-SlackNotifier-EventsRule/AllowEventRulequotamonitorhubnoouQMSlackNotifierQMSlackNotifierLambda52C32258"
-  #     },
-  #     "Condition": "SlackTrueCondition"
-  #   },
+    "QMSlackNotifierQMSlackNotifierEventsRuleAllowEventRulequotamonitorhubnoouQMSlackNotifierQMSlackNotifierLambda52C322580E2041A7": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "QMSlackNotifierQMSlackNotifierLambda95713661",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "QMSlackNotifierQMSlackNotifierEventsRuleC3528E53",
+            "Arn"
+          ]
+        }
+      },
+      "Condition": "SlackTrueCondition"
+    },
 
     "QMSlackNotifierQMSlackNotifierLambdaDeadLetterQueue74B865F7": {
       "Type": "AWS::SQS::Queue",
@@ -662,42 +659,31 @@
       "Condition": "SlackTrueCondition"
     },
 
-  #   "QMSlackNotifierQMSlackNotifierLambdaEventInvokeConfig5340A982": {
-  #     "Type": "AWS::Lambda::EventInvokeConfig",
-  #     "Properties": {
-  #       "FunctionName": {
-  #         "Ref": "QMSlackNotifierQMSlackNotifierLambda95713661"
-  #       },
-  #       "MaximumEventAgeInSeconds": 14400,
-  #       "Qualifier": "$LATEST"
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SlackNotifier/QM-SlackNotifier-Lambda/EventInvokeConfig/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     },
-  #     "Condition": "SlackTrueCondition"
-  #   },
-  #   "QMSNSPublisherQMSNSPublisherSNSTopic7EE2EBF4": {
-  #     "Type": "AWS::SNS::Topic",
-  #     "Properties": {
-  #       "KmsMasterKeyId": {
-  #         "Fn::GetAtt": [
-  #           "KMSHubQMEncryptionKeyA80F8C05",
-  #           "Arn"
-  #         ]
-  #       }
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SNSPublisher/QM-SNSPublisher-SNSTopic/Resource"
-  #     }
-  #   },
+    "QMSlackNotifierQMSlackNotifierLambdaEventInvokeConfig5340A982": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "QMSlackNotifierQMSlackNotifierLambda95713661"
+        },
+        "MaximumEventAgeInSeconds": 14400,
+        "Qualifier": "$LATEST"
+      },
+      "Condition": "SlackTrueCondition"
+    },
+
+    "QMSNSPublisherQMSNSPublisherSNSTopic7EE2EBF4": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName" : "sns-publish-topic-cf",
+        "KmsMasterKeyId": {
+          "Fn::GetAtt": [
+            "KMSHubQMEncryptionKeyA80F8C05",
+            "Arn"
+          ]
+        }
+      }
+    },
+
   #   "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRule5BDCD4FD": {
   #     "Type": "AWS::Events::Rule",
   #     "Properties": {
