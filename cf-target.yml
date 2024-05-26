@@ -934,97 +934,91 @@
       },
     },
 
-    # "QMUtilizationWarn1BF84C25": {
-    #   "Type": "AWS::Events::Rule",
-    #   "Properties": {
-    #     "Description": "SO0005 quota-monitor-for-aws - quota-monitor-sq-spoke-EventsRule",
-    #     "EventBusName": {
-    #       "Ref": "QMSpokeBus1D13B121"
-    #     },
-    #     "EventPattern": {
-    #       "account": [
-    #         {
-    #           "Ref": "AWS::AccountId"
-    #         }
-    #       ],
-    #       "detail": {
-    #         "status": [
-    #           "WARN"
-    #         ]
-    #       },
-    #       "detail-type": [
-    #         "Service Quotas Utilization Notification"
-    #       ],
-    #       "source": [
-    #         "aws-solutions.quota-monitor"
-    #       ]
-    #     },
-    #     "State": "ENABLED",
-    #     "Targets": [
-    #       {
-    #         "Arn": {
-    #           "Ref": "EventBusArn"
-    #         },
-    #         "Id": "Target0",
-    #         "RoleArn": {
-    #           "Fn::GetAtt": [
-    #             "QMUtilizationWarnEventsRole4BC4EAB1",
-    #             "Arn"
-    #           ]
-    #         }
-    #       }
-    #     ]
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-Utilization-Warn/Resource"
-    #   }
-    # },
-    # "QMUtilizationWarnEventsRole4BC4EAB1": {
-    #   "Type": "AWS::IAM::Role",
-    #   "Properties": {
-    #     "AssumeRolePolicyDocument": {
-    #       "Statement": [
-    #         {
-    #           "Action": "sts:AssumeRole",
-    #           "Effect": "Allow",
-    #           "Principal": {
-    #             "Service": "events.amazonaws.com"
-    #           }
-    #         }
-    #       ],
-    #       "Version": "2012-10-17"
-    #     }
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-Utilization-Warn/EventsRole/Resource"
-    #   }
-    # },
-    # "QMUtilizationWarnEventsRoleDefaultPolicyAE78A2DA": {
-    #   "Type": "AWS::IAM::Policy",
-    #   "Properties": {
-    #     "PolicyDocument": {
-    #       "Statement": [
-    #         {
-    #           "Action": "events:PutEvents",
-    #           "Effect": "Allow",
-    #           "Resource": {
-    #             "Ref": "EventBusArn"
-    #           }
-    #         }
-    #       ],
-    #       "Version": "2012-10-17"
-    #     },
-    #     "PolicyName": "QMUtilizationWarnEventsRoleDefaultPolicyAE78A2DA",
-    #     "Roles": [
-    #       {
-    #         "Ref": "QMUtilizationWarnEventsRole4BC4EAB1"
-    #       }
-    #     ]
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-Utilization-Warn/EventsRole/DefaultPolicy/Resource"
-    #   }
-    # },
+    "QMUtilizationWarn1BF84C25": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - quota-monitor-sq-spoke-EventsRule",
+        "EventBusName": {
+          "Ref": "QMSpokeBus1D13B121"
+        },
+        "EventPattern": {
+          "account": [
+            {
+              "Ref": "AWS::AccountId"
+            }
+          ],
+          "detail": {
+            "status": [
+              "WARN"
+            ]
+          },
+          "detail-type": [
+            "Service Quotas Utilization Notification"
+          ],
+          "source": [
+            "aws-solutions.quota-monitor"
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "EventBusArn"
+            },
+            "Id": "Target0",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "QMUtilizationWarnEventsRole4BC4EAB1",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      },
+    },
+
+    "QMUtilizationWarnEventsRole4BC4EAB1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName" : iam-role-event-warn-cf,
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+    },
+
+    "QMUtilizationWarnEventsRoleDefaultPolicyAE78A2DA": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "events:PutEvents",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "EventBusArn"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "QMUtilizationWarnEventsRoleDefaultPolicyAE78A2DA",
+        "Roles": [
+          {
+            "Ref": "QMUtilizationWarnEventsRole4BC4EAB1"
+          }
+        ]
+      },
+    },
 
     "QMUtilizationErr3AEC9915": {
       "Type": "AWS::Events::Rule",
