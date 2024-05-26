@@ -1255,147 +1255,110 @@
       }
     },
 
-  #   "QMReporterQMReporterLambdaServiceRoleBA4CED84": {
-  #     "Type": "AWS::IAM::Role",
-  #     "Properties": {
-  #       "AssumeRolePolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sts:AssumeRole",
-  #             "Effect": "Allow",
-  #             "Principal": {
-  #               "Service": "lambda.amazonaws.com"
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "ManagedPolicyArns": [
-  #         {
-  #           "Fn::Join": [
-  #             "",
-  #             [
-  #               "arn:",
-  #               {
-  #                 "Ref": "AWS::Partition"
-  #               },
-  #               ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  #             ]
-  #           ]
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Reporter/QM-Reporter-Lambda/ServiceRole/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "Actions restricted on kms key ARN. Only actions that do not support resource-level permissions have * in resource",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+    "QMReporterQMReporterLambdaServiceRoleBA4CED84": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName" : iam-role-lambda-reporter-cf,
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      }
+    },
 
-  #   "QMReporterQMReporterLambdaServiceRoleDefaultPolicyC6B87A76": {
-  #     "Type": "AWS::IAM::Policy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sqs:SendMessage",
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": [
-  #               "kms:Encrypt",
-  #               "kms:Decrypt",
-  #               "kms:CreateGrant"
-  #             ],
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "KMSHubQMEncryptionKeyA80F8C05",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": "kms:ListAliases",
-  #             "Effect": "Allow",
-  #             "Resource": "*"
-  #           },
-  #           {
-  #             "Action": [
-  #               "sqs:DeleteMessage",
-  #               "sqs:ReceiveMessage"
-  #             ],
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMSummarizerEventQueueQMSummarizerEventQueueQueue95FCCD2A",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": [
-  #               "dynamodb:GetItem",
-  #               "dynamodb:PutItem"
-  #             ],
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMTable336670B0",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "PolicyName": "QMReporterQMReporterLambdaServiceRoleDefaultPolicyC6B87A76",
-  #       "Roles": [
-  #         {
-  #           "Ref": "QMReporterQMReporterLambdaServiceRoleBA4CED84"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Reporter/QM-Reporter-Lambda/ServiceRole/DefaultPolicy/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "Actions restricted on kms key ARN. Only actions that do not support resource-level permissions have * in resource",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+    "QMReporterQMReporterLambdaServiceRoleDefaultPolicyC6B87A76": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:SendMessage",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:CreateGrant"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "KMSHubQMEncryptionKeyA80F8C05",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "kms:ListAliases",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "sqs:DeleteMessage",
+                "sqs:ReceiveMessage"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMSummarizerEventQueueQMSummarizerEventQueueQueue95FCCD2A",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMTable336670B0",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "QMReporterQMReporterLambdaServiceRoleDefaultPolicyC6B87A76",
+        "Roles": [
+          {
+            "Ref": "QMReporterQMReporterLambdaServiceRoleBA4CED84"
+          }
+        ]
+      }
+    },
 
   #   "QMReporterQMReporterLambda7D98A6E4": {
   #     "Type": "AWS::Lambda::Function",
