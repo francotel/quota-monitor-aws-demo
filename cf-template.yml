@@ -218,6 +218,7 @@
     #   ]
     # }
   },
+
   "Resources": {
     "QMBusFF5C6C0C": {
       "Type": "AWS::Events::EventBus",
@@ -276,6 +277,7 @@
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain"
     },
+
     "KMSHubQMEncryptionKeyAlias6C248240": {
       "Type": "AWS::KMS::Alias",
       "Properties": {
@@ -1008,47 +1010,44 @@
       "Condition": "EmailTrueCondition"
     },
 
-  #   "QMSummarizerEventQueueQMSummarizerEventQueueEventsRuleE50B8D7C": {
-  #     "Type": "AWS::Events::Rule",
-  #     "Properties": {
-  #       "Description": "SO0005 quota-monitor-for-aws - QM-Summarizer-EventQueue-EventsRule",
-  #       "EventBusName": {
-  #         "Ref": "QMBusFF5C6C0C"
-  #       },
-  #       "EventPattern": {
-  #         "detail": {
-  #           "status": [
-  #             "OK",
-  #             "WARN",
-  #             "ERROR"
-  #           ]
-  #         },
-  #         "detail-type": [
-  #           "Trusted Advisor Check Item Refresh Notification",
-  #           "Service Quotas Utilization Notification"
-  #         ],
-  #         "source": [
-  #           "aws.trustedadvisor",
-  #           "aws-solutions.quota-monitor"
-  #         ]
-  #       },
-  #       "State": "ENABLED",
-  #       "Targets": [
-  #         {
-  #           "Arn": {
-  #             "Fn::GetAtt": [
-  #               "QMSummarizerEventQueueQMSummarizerEventQueueQueue95FCCD2A",
-  #               "Arn"
-  #             ]
-  #           },
-  #           "Id": "Target0"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Summarizer-EventQueue/QM-Summarizer-EventQueue-EventsRule/Resource"
-  #     }
-  #   },
+    "QMSummarizerEventQueueQMSummarizerEventQueueEventsRuleE50B8D7C": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - QM-Summarizer-EventQueue-EventsRule",
+        "EventBusName": {
+          "Ref": "QMBusFF5C6C0C"
+        },
+        "EventPattern": {
+          "detail": {
+            "status": [
+              "OK",
+              "WARN",
+              "ERROR"
+            ]
+          },
+          "detail-type": [
+            "Trusted Advisor Check Item Refresh Notification",
+            "Service Quotas Utilization Notification"
+          ],
+          "source": [
+            "aws.trustedadvisor",
+            "aws-solutions.quota-monitor"
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "QMSummarizerEventQueueQMSummarizerEventQueueQueue95FCCD2A",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
 
     "QMSummarizerEventQueueQMSummarizerEventQueueQueue95FCCD2A": {
       "Type": "AWS::SQS::Queue",
@@ -1164,48 +1163,45 @@
       "DeletionPolicy": "Retain",
     },
 
-    # "QMReporterQMReporterEventsRule0BF77282": {
-    #   "Type": "AWS::Events::Rule",
-    #   "Properties": {
-    #     "Description": "SO0005 quota-monitor-for-aws - QM-Reporter-EventsRule",
-    #     "ScheduleExpression": "rate(5 minutes)",
-    #     "State": "ENABLED",
-    #     "Targets": [
-    #       {
-    #         "Arn": {
-    #           "Fn::GetAtt": [
-    #             "QMReporterQMReporterLambda7D98A6E4",
-    #             "Arn"
-    #           ]
-    #         },
-    #         "Id": "Target0"
-    #       }
-    #     ]
-    #   }
-    # },
+    "QMReporterQMReporterEventsRule0BF77282": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - QM-Reporter-EventsRule",
+        "ScheduleExpression": "rate(5 minutes)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "QMReporterQMReporterLambda7D98A6E4",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
 
-  #   "QMReporterQMReporterEventsRuleAllowEventRulequotamonitorhubnoouQMReporterQMReporterLambda0CE086E3DDFD1F2A": {
-  #     "Type": "AWS::Lambda::Permission",
-  #     "Properties": {
-  #       "Action": "lambda:InvokeFunction",
-  #       "FunctionName": {
-  #         "Fn::GetAtt": [
-  #           "QMReporterQMReporterLambda7D98A6E4",
-  #           "Arn"
-  #         ]
-  #       },
-  #       "Principal": "events.amazonaws.com",
-  #       "SourceArn": {
-  #         "Fn::GetAtt": [
-  #           "QMReporterQMReporterEventsRule0BF77282",
-  #           "Arn"
-  #         ]
-  #       }
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Reporter/QM-Reporter-EventsRule/AllowEventRulequotamonitorhubnoouQMReporterQMReporterLambda0CE086E3"
-  #     }
-  #   },
+    "QMReporterQMReporterEventsRuleAllowEventRulequotamonitorhubnoouQMReporterQMReporterLambda0CE086E3DDFD1F2A": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "QMReporterQMReporterLambda7D98A6E4",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "QMReporterQMReporterEventsRule0BF77282",
+            "Arn"
+          ]
+        }
+      }
+    },
 
     "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC": {
       "Type": "AWS::SQS::Queue",
