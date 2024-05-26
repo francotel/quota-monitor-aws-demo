@@ -1877,27 +1877,16 @@
       ]
     },
 
-  #   "QMHelperQMHelperFunctionEventInvokeConfig580F9F5F": {
-  #     "Type": "AWS::Lambda::EventInvokeConfig",
-  #     "Properties": {
-  #       "FunctionName": {
-  #         "Ref": "QMHelperQMHelperFunction91954E97"
-  #       },
-  #       "MaximumEventAgeInSeconds": 14400,
-  #       "Qualifier": "$LATEST"
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Helper/QM-Helper-Function/EventInvokeConfig/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+    "QMHelperQMHelperFunctionEventInvokeConfig580F9F5F": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "QMHelperQMHelperFunction91954E97"
+        },
+        "MaximumEventAgeInSeconds": 14400,
+        "Qualifier": "$LATEST"
+      }
+    },
 
     "QMHelperQMHelperProviderframeworkonEventServiceRole4A1EBBAB": {
       "Type": "AWS::IAM::Role",
@@ -1928,70 +1917,51 @@
             ]
           }
         ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Helper/QM-Helper-Provider/framework-onEvent/ServiceRole/Resource",
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-              "id": "AwsSolutions-IAM4"
-            },
-            {
-              "reason": "IAM policy is appropriated scoped, ARN is provided in policy resource, false warning",
-              "id": "AwsSolutions-IAM5"
-            },
-            {
-              "reason": "Lambda function created by Provider L2 construct uses nodejs 14, risk is tolerable",
-              "id": "AwsSolutions-L1"
-            }
-          ]
-        }
       }
     },
 
-  #   "QMHelperQMHelperProviderframeworkonEventServiceRoleDefaultPolicy86C1FCC1": {
-  #     "Type": "AWS::IAM::Policy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "lambda:InvokeFunction",
-  #             "Effect": "Allow",
-  #             "Resource": [
-  #               {
-  #                 "Fn::GetAtt": [
-  #                   "QMHelperQMHelperFunction91954E97",
-  #                   "Arn"
-  #                 ]
-  #               },
-  #               {
-  #                 "Fn::Join": [
-  #                   "",
-  #                   [
-  #                     {
-  #                       "Fn::GetAtt": [
-  #                         "QMHelperQMHelperFunction91954E97",
-  #                         "Arn"
-  #                       ]
-  #                     },
-  #                     ":*"
-  #                   ]
-  #                 ]
-  #               }
-  #             ]
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "PolicyName": "QMHelperQMHelperProviderframeworkonEventServiceRoleDefaultPolicy86C1FCC1",
-  #       "Roles": [
-  #         {
-  #           "Ref": "QMHelperQMHelperProviderframeworkonEventServiceRole4A1EBBAB"
-  #         }
-  #       ]
-  #     }
-  #   },
+    "QMHelperQMHelperProviderframeworkonEventServiceRoleDefaultPolicy86C1FCC1": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "QMHelperQMHelperFunction91954E97",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "QMHelperQMHelperFunction91954E97",
+                          "Arn"
+                        ]
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "QMHelperQMHelperProviderframeworkonEventServiceRoleDefaultPolicy86C1FCC1",
+        "Roles": [
+          {
+            "Ref": "QMHelperQMHelperProviderframeworkonEventServiceRole4A1EBBAB"
+          }
+        ]
+      }
+    },
 
   #   "QMHelperQMHelperProviderframeworkonEventB1DF6D3F": {
   #     "Type": "AWS::Lambda::Function",
