@@ -475,25 +475,25 @@
       ],
     },
 
-    # "QMListManagerSQServiceList2C145D4D": {
-    #   "Type": "Custom::SQServiceList",
-    #   "Properties": {
-    #     "ServiceToken": {
-    #       "Fn::GetAtt": [
-    #         "QMListManagerQMListManagerProviderframeworkonEvent1F57B2C8",
-    #         "Arn"
-    #       ]
-    #     },
-    #     "VERSION": "v6.2.6"
-    #   },
-    #   "DependsOn": [
-    #     "QMUtilizationErr3AEC9915",
-    #     "SQQuotaTableD0BC5741",
-    #     "SQServiceTable0182B2D0"
-    #   ],
-    #   "UpdateReplacePolicy": "Delete",
-    #   "DeletionPolicy": "Delete",
-    # },
+    "QMListManagerSQServiceList2C145D4D": {
+      "Type": "Custom::SQServiceList",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "QMListManagerQMListManagerProviderframeworkonEvent1F57B2C8",
+            "Arn"
+          ]
+        },
+        "VERSION": "v6.2.6"
+      },
+      "DependsOn": [
+        "QMUtilizationErr3AEC9915",
+        "SQQuotaTableD0BC5741",
+        "SQServiceTable0182B2D0"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+    },
 
     "QMListManagerSchedule2CDA6819": {
       "Type": "AWS::Events::Rule",
@@ -535,50 +535,47 @@
       },
     },
 
-    # "QMCWPollerQMCWPollerEventsRuleE8CD588E": {
-    #   "Type": "AWS::Events::Rule",
-    #   "Properties": {
-    #     "Description": "SO0005 quota-monitor-for-aws - QM-CWPoller-EventsRule",
-    #     "ScheduleExpression": {
-    #       "Ref": "MonitoringFrequency"
-    #     },
-    #     "State": "ENABLED",
-    #     "Targets": [
-    #       {
-    #         "Arn": {
-    #           "Fn::GetAtt": [
-    #             "QMCWPollerQMCWPollerLambda824ABE36",
-    #             "Arn"
-    #           ]
-    #         },
-    #         "Id": "Target0"
-    #       }
-    #     ]
-    #   },
-    # },
+    "QMCWPollerQMCWPollerEventsRuleE8CD588E": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - QM-CWPoller-EventsRule",
+        "ScheduleExpression": {
+          "Ref": "MonitoringFrequency"
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "QMCWPollerQMCWPollerLambda824ABE36",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+    },
 
-    # "QMCWPollerQMCWPollerEventsRuleAllowEventRulequotamonitorsqspokeQMCWPollerQMCWPollerLambdaB70526DA3005A260": {
-    #   "Type": "AWS::Lambda::Permission",
-    #   "Properties": {
-    #     "Action": "lambda:InvokeFunction",
-    #     "FunctionName": {
-    #       "Fn::GetAtt": [
-    #         "QMCWPollerQMCWPollerLambda824ABE36",
-    #         "Arn"
-    #       ]
-    #     },
-    #     "Principal": "events.amazonaws.com",
-    #     "SourceArn": {
-    #       "Fn::GetAtt": [
-    #         "QMCWPollerQMCWPollerEventsRuleE8CD588E",
-    #         "Arn"
-    #       ]
-    #     }
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-CWPoller/QM-CWPoller-EventsRule/AllowEventRulequotamonitorsqspokeQMCWPollerQMCWPollerLambdaB70526DA"
-    #   }
-    # },
+    "QMCWPollerQMCWPollerEventsRuleAllowEventRulequotamonitorsqspokeQMCWPollerQMCWPollerLambdaB70526DA3005A260": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "QMCWPollerQMCWPollerLambda824ABE36",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "QMCWPollerQMCWPollerEventsRuleE8CD588E",
+            "Arn"
+          ]
+        }
+      },
+    },
 
     "QMCWPollerQMCWPollerLambdaDeadLetterQueueE535D49E": {
       "Type": "AWS::SQS::Queue",
