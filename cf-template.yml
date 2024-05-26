@@ -27,7 +27,7 @@
   "Parameters": {
     "SNSEmail": {
       "Type": "String",
-      "Default": "",
+      "Default": "franco.navarrotel@gmail.com",
       "Description": "To disable email notifications, leave this blank."
     },
     "SlackNotification": {
@@ -985,43 +985,31 @@
       ],
     },
 
-  #   "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaEventInvokeConfig7A963AA0": {
-  #     "Type": "AWS::Lambda::EventInvokeConfig",
-  #     "Properties": {
-  #       "FunctionName": {
-  #         "Ref": "QMSNSPublisherFunctionQMSNSPublisherFunctionLambda8BD2DBC1"
-  #       },
-  #       "MaximumEventAgeInSeconds": 14400,
-  #       "Qualifier": "$LATEST"
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SNSPublisherFunction/QM-SNSPublisherFunction-Lambda/EventInvokeConfig/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
-  #   "QMEmailSubscription32E71F90": {
-  #     "Type": "AWS::SNS::Subscription",
-  #     "Properties": {
-  #       "Endpoint": {
-  #         "Ref": "SNSEmail"
-  #       },
-  #       "Protocol": "email",
-  #       "TopicArn": {
-  #         "Ref": "QMSNSPublisherQMSNSPublisherSNSTopic7EE2EBF4"
-  #       }
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-EmailSubscription/Resource"
-  #     },
-  #     "Condition": "EmailTrueCondition"
-  #   },
+    "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaEventInvokeConfig7A963AA0": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "QMSNSPublisherFunctionQMSNSPublisherFunctionLambda8BD2DBC1"
+        },
+        "MaximumEventAgeInSeconds": 14400,
+        "Qualifier": "$LATEST"
+      },
+    },
+
+    "QMEmailSubscription32E71F90": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Endpoint": {
+          "Ref": "SNSEmail"
+        },
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "QMSNSPublisherQMSNSPublisherSNSTopic7EE2EBF4"
+        }
+      },
+      "Condition": "EmailTrueCondition"
+    },
+
   #   "QMSummarizerEventQueueQMSummarizerEventQueueEventsRuleE50B8D7C": {
   #     "Type": "AWS::Events::Rule",
   #     "Properties": {
@@ -1638,170 +1626,134 @@
       }
     },
 
-  #   "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72": {
-  #     "Type": "AWS::IAM::Role",
-  #     "Properties": {
-  #       "AssumeRolePolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sts:AssumeRole",
-  #             "Effect": "Allow",
-  #             "Principal": {
-  #               "Service": "lambda.amazonaws.com"
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "ManagedPolicyArns": [
-  #         {
-  #           "Fn::Join": [
-  #             "",
-  #             [
-  #               "arn:",
-  #               {
-  #                 "Ref": "AWS::Partition"
-  #               },
-  #               ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  #             ]
-  #           ]
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Deployment-Manager/QM-Deployment-Manager-Lambda/ServiceRole/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "Actions restricted on kms key ARN. Only actions that do not support resource-level permissions have * in resource",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
-  #   "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777": {
-  #     "Type": "AWS::IAM::Policy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sqs:SendMessage",
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": [
-  #               "kms:Encrypt",
-  #               "kms:Decrypt",
-  #               "kms:CreateGrant"
-  #             ],
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "KMSHubQMEncryptionKeyA80F8C05",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": "kms:ListAliases",
-  #             "Effect": "Allow",
-  #             "Resource": "*"
-  #           },
-  #           {
-  #             "Action": [
-  #               "events:PutPermission",
-  #               "events:RemovePermission"
-  #             ],
-  #             "Effect": "Allow",
-  #             "Resource": "*"
-  #           },
-  #           {
-  #             "Action": "events:DescribeEventBus",
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMBusFF5C6C0C",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": "ssm:GetParameter",
-  #             "Effect": "Allow",
-  #             "Resource": {
-  #               "Fn::Join": [
-  #                 "",
-  #                 [
-  #                   "arn:",
-  #                   {
-  #                     "Ref": "AWS::Partition"
-  #                   },
-  #                   ":ssm:",
-  #                   {
-  #                     "Ref": "AWS::Region"
-  #                   },
-  #                   ":",
-  #                   {
-  #                     "Ref": "AWS::AccountId"
-  #                   },
-  #                   ":parameter",
-  #                   {
-  #                     "Ref": "QMAccounts3D743F6B"
-  #                   }
-  #                 ]
-  #               ]
-  #             }
-  #           },
-  #           {
-  #             "Action": "support:DescribeTrustedAdvisorChecks",
-  #             "Effect": "Allow",
-  #             "Resource": "*"
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "PolicyName": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777",
-  #       "Roles": [
-  #         {
-  #           "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Deployment-Manager/QM-Deployment-Manager-Lambda/ServiceRole/DefaultPolicy/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "Actions restricted on kms key ARN. Only actions that do not support resource-level permissions have * in resource",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+    # "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72": {
+    #   "Type": "AWS::IAM::Role",
+    #   "Properties": {
+    #     "RoleName" : iam-role-lambda-manager-cf,
+    #     "AssumeRolePolicyDocument": {
+    #       "Statement": [
+    #         {
+    #           "Action": "sts:AssumeRole",
+    #           "Effect": "Allow",
+    #           "Principal": {
+    #             "Service": "lambda.amazonaws.com"
+    #           }
+    #         }
+    #       ],
+    #       "Version": "2012-10-17"
+    #     },
+    #     "ManagedPolicyArns": [
+    #       {
+    #         "Fn::Join": [
+    #           "",
+    #           [
+    #             "arn:",
+    #             {
+    #               "Ref": "AWS::Partition"
+    #             },
+    #             ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+    #           ]
+    #         ]
+    #       }
+    #     ]
+    #   }
+    # },
+
+    # "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777": {
+    #   "Type": "AWS::IAM::Policy",
+    #   "Properties": {
+    #     "PolicyDocument": {
+    #       "Statement": [
+    #         {
+    #           "Action": "sqs:SendMessage",
+    #           "Effect": "Allow",
+    #           "Resource": {
+    #             "Fn::GetAtt": [
+    #               "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2",
+    #               "Arn"
+    #             ]
+    #           }
+    #         },
+    #         {
+    #           "Action": [
+    #             "kms:Encrypt",
+    #             "kms:Decrypt",
+    #             "kms:CreateGrant"
+    #           ],
+    #           "Effect": "Allow",
+    #           "Resource": {
+    #             "Fn::GetAtt": [
+    #               "KMSHubQMEncryptionKeyA80F8C05",
+    #               "Arn"
+    #             ]
+    #           }
+    #         },
+    #         {
+    #           "Action": "kms:ListAliases",
+    #           "Effect": "Allow",
+    #           "Resource": "*"
+    #         },
+    #         {
+    #           "Action": [
+    #             "events:PutPermission",
+    #             "events:RemovePermission"
+    #           ],
+    #           "Effect": "Allow",
+    #           "Resource": "*"
+    #         },
+    #         {
+    #           "Action": "events:DescribeEventBus",
+    #           "Effect": "Allow",
+    #           "Resource": {
+    #             "Fn::GetAtt": [
+    #               "QMBusFF5C6C0C",
+    #               "Arn"
+    #             ]
+    #           }
+    #         },
+    #         {
+    #           "Action": "ssm:GetParameter",
+    #           "Effect": "Allow",
+    #           "Resource": {
+    #             "Fn::Join": [
+    #               "",
+    #               [
+    #                 "arn:",
+    #                 {
+    #                   "Ref": "AWS::Partition"
+    #                 },
+    #                 ":ssm:",
+    #                 {
+    #                   "Ref": "AWS::Region"
+    #                 },
+    #                 ":",
+    #                 {
+    #                   "Ref": "AWS::AccountId"
+    #                 },
+    #                 ":parameter",
+    #                 {
+    #                   "Ref": "QMAccounts3D743F6B"
+    #                 }
+    #               ]
+    #             ]
+    #           }
+    #         },
+    #         {
+    #           "Action": "support:DescribeTrustedAdvisorChecks",
+    #           "Effect": "Allow",
+    #           "Resource": "*"
+    #         }
+    #       ],
+    #       "Version": "2012-10-17"
+    #     },
+    #     "PolicyName": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777",
+    #     "Roles": [
+    #       {
+    #         "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72"
+    #       }
+    #     ]
+    #   }
+    # },
 
   #   "QMDeploymentManagerQMDeploymentManagerLambdaB36F1B21": {
   #     "Type": "AWS::Lambda::Function",
@@ -1956,6 +1908,7 @@
   #       }
   #     }
   #   },
+
   #   "QMHelperQMHelperFunction91954E97": {
   #     "Type": "AWS::Lambda::Function",
   #     "Properties": {
@@ -2046,56 +1999,56 @@
   #     }
   #   },
 
-  #   "QMHelperQMHelperProviderframeworkonEventServiceRole4A1EBBAB": {
-  #     "Type": "AWS::IAM::Role",
-  #     "Properties": {
-  #       "AssumeRolePolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sts:AssumeRole",
-  #             "Effect": "Allow",
-  #             "Principal": {
-  #               "Service": "lambda.amazonaws.com"
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "ManagedPolicyArns": [
-  #         {
-  #           "Fn::Join": [
-  #             "",
-  #             [
-  #               "arn:",
-  #               {
-  #                 "Ref": "AWS::Partition"
-  #               },
-  #               ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  #             ]
-  #           ]
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Helper/QM-Helper-Provider/framework-onEvent/ServiceRole/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "IAM policy is appropriated scoped, ARN is provided in policy resource, false warning",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "Lambda function created by Provider L2 construct uses nodejs 14, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+    "QMHelperQMHelperProviderframeworkonEventServiceRole4A1EBBAB": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Helper/QM-Helper-Provider/framework-onEvent/ServiceRole/Resource",
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
+              "id": "AwsSolutions-IAM4"
+            },
+            {
+              "reason": "IAM policy is appropriated scoped, ARN is provided in policy resource, false warning",
+              "id": "AwsSolutions-IAM5"
+            },
+            {
+              "reason": "Lambda function created by Provider L2 construct uses nodejs 14, risk is tolerable",
+              "id": "AwsSolutions-L1"
+            }
+          ]
+        }
+      }
+    },
 
   #   "QMHelperQMHelperProviderframeworkonEventServiceRoleDefaultPolicy86C1FCC1": {
   #     "Type": "AWS::IAM::Policy",
