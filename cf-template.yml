@@ -1435,6 +1435,7 @@
   #       }
   #     }
   #   },
+
   #   "QMReporterQMReporterLambdaEventInvokeConfig07548BFA": {
   #     "Type": "AWS::Lambda::EventInvokeConfig",
   #     "Properties": {
@@ -1456,6 +1457,7 @@
   #       }
   #     }
   #   },
+
   #   "QMDeploymentManagerQMDeploymentManagerEventsRule53DB2DA9": {
   #     "Type": "AWS::Events::Rule",
   #     "Properties": {
@@ -1583,134 +1585,134 @@
       }
     },
 
-    # "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72": {
-    #   "Type": "AWS::IAM::Role",
-    #   "Properties": {
-    #     "RoleName" : iam-role-lambda-manager-cf,
-    #     "AssumeRolePolicyDocument": {
-    #       "Statement": [
-    #         {
-    #           "Action": "sts:AssumeRole",
-    #           "Effect": "Allow",
-    #           "Principal": {
-    #             "Service": "lambda.amazonaws.com"
-    #           }
-    #         }
-    #       ],
-    #       "Version": "2012-10-17"
-    #     },
-    #     "ManagedPolicyArns": [
-    #       {
-    #         "Fn::Join": [
-    #           "",
-    #           [
-    #             "arn:",
-    #             {
-    #               "Ref": "AWS::Partition"
-    #             },
-    #             ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-    #           ]
-    #         ]
-    #       }
-    #     ]
-    #   }
-    # },
+    "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName" : iam-role-lambda-manager-cf,
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      }
+    },
 
-    # "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777": {
-    #   "Type": "AWS::IAM::Policy",
-    #   "Properties": {
-    #     "PolicyDocument": {
-    #       "Statement": [
-    #         {
-    #           "Action": "sqs:SendMessage",
-    #           "Effect": "Allow",
-    #           "Resource": {
-    #             "Fn::GetAtt": [
-    #               "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2",
-    #               "Arn"
-    #             ]
-    #           }
-    #         },
-    #         {
-    #           "Action": [
-    #             "kms:Encrypt",
-    #             "kms:Decrypt",
-    #             "kms:CreateGrant"
-    #           ],
-    #           "Effect": "Allow",
-    #           "Resource": {
-    #             "Fn::GetAtt": [
-    #               "KMSHubQMEncryptionKeyA80F8C05",
-    #               "Arn"
-    #             ]
-    #           }
-    #         },
-    #         {
-    #           "Action": "kms:ListAliases",
-    #           "Effect": "Allow",
-    #           "Resource": "*"
-    #         },
-    #         {
-    #           "Action": [
-    #             "events:PutPermission",
-    #             "events:RemovePermission"
-    #           ],
-    #           "Effect": "Allow",
-    #           "Resource": "*"
-    #         },
-    #         {
-    #           "Action": "events:DescribeEventBus",
-    #           "Effect": "Allow",
-    #           "Resource": {
-    #             "Fn::GetAtt": [
-    #               "QMBusFF5C6C0C",
-    #               "Arn"
-    #             ]
-    #           }
-    #         },
-    #         {
-    #           "Action": "ssm:GetParameter",
-    #           "Effect": "Allow",
-    #           "Resource": {
-    #             "Fn::Join": [
-    #               "",
-    #               [
-    #                 "arn:",
-    #                 {
-    #                   "Ref": "AWS::Partition"
-    #                 },
-    #                 ":ssm:",
-    #                 {
-    #                   "Ref": "AWS::Region"
-    #                 },
-    #                 ":",
-    #                 {
-    #                   "Ref": "AWS::AccountId"
-    #                 },
-    #                 ":parameter",
-    #                 {
-    #                   "Ref": "QMAccounts3D743F6B"
-    #                 }
-    #               ]
-    #             ]
-    #           }
-    #         },
-    #         {
-    #           "Action": "support:DescribeTrustedAdvisorChecks",
-    #           "Effect": "Allow",
-    #           "Resource": "*"
-    #         }
-    #       ],
-    #       "Version": "2012-10-17"
-    #     },
-    #     "PolicyName": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777",
-    #     "Roles": [
-    #       {
-    #         "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72"
-    #       }
-    #     ]
-    #   }
-    # },
+    "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:SendMessage",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:CreateGrant"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "KMSHubQMEncryptionKeyA80F8C05",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "kms:ListAliases",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "events:PutPermission",
+                "events:RemovePermission"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "events:DescribeEventBus",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMBusFF5C6C0C",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":ssm:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":parameter",
+                    {
+                      "Ref": "QMAccounts3D743F6B"
+                    }
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "support:DescribeTrustedAdvisorChecks",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRoleDefaultPolicy7E3D0777",
+        "Roles": [
+          {
+            "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72"
+          }
+        ]
+      }
+    },
 
   #   "QMDeploymentManagerQMDeploymentManagerLambdaB36F1B21": {
   #     "Type": "AWS::Lambda::Function",
