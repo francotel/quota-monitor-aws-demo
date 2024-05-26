@@ -460,7 +460,7 @@
       },
       "Condition": "SlackTrueCondition"
     },
-    
+
     "QMSlackNotifierQMSlackNotifierLambdaServiceRole6342FD1D": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -765,42 +765,39 @@
       "DeletionPolicy": "Delete",
     },
 
-  #   "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueuePolicyBA6A8707": {
-  #     "Type": "AWS::SQS::QueuePolicy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sqs:*",
-  #             "Condition": {
-  #               "Bool": {
-  #                 "aws:SecureTransport": "false"
-  #               }
-  #             },
-  #             "Effect": "Deny",
-  #             "Principal": {
-  #               "AWS": "*"
-  #             },
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueue72FF519A",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "Queues": [
-  #         {
-  #           "Ref": "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueue72FF519A"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SNSPublisherFunction/QM-SNSPublisherFunction-Lambda-Dead-Letter-Queue/Policy/Resource"
-  #     }
-  #   },
+    "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueuePolicyBA6A8707": {
+      "Type": "AWS::SQS::QueuePolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueue72FF519A",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Queues": [
+          {
+            "Ref": "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueue72FF519A"
+          }
+        ]
+      }
+    },
   
     "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaServiceRoleA2F00B10": {
       "Type": "AWS::IAM::Role",
@@ -1145,54 +1142,52 @@
       }
     },
 
-    # "QMTable336670B0": {
-    #   "Type": "AWS::DynamoDB::Table",
-    #   "Properties": {
-    #     "AttributeDefinitions": [
-    #       {
-    #         "AttributeName": "MessageId",
-    #         "AttributeType": "S"
-    #       },
-    #       {
-    #         "AttributeName": "TimeStamp",
-    #         "AttributeType": "S"
-    #       }
-    #     ],
-    #     "BillingMode": "PAY_PER_REQUEST",
-    #     "KeySchema": [
-    #       {
-    #         "AttributeName": "MessageId",
-    #         "KeyType": "HASH"
-    #       },
-    #       {
-    #         "AttributeName": "TimeStamp",
-    #         "KeyType": "RANGE"
-    #       }
-    #     ],
-    #     "PointInTimeRecoverySpecification": {
-    #       "PointInTimeRecoveryEnabled": true
-    #     },
-    #     "SSESpecification": {
-    #       "KMSMasterKeyId": {
-    #         "Fn::GetAtt": [
-    #           "KMSHubQMEncryptionKeyA80F8C05",
-    #           "Arn"
-    #         ]
-    #       },
-    #       "SSEEnabled": true,
-    #       "SSEType": "KMS"
-    #     },
-    #     "TimeToLiveSpecification": {
-    #       "AttributeName": "ExpiryTime",
-    #       "Enabled": true
-    #     }
-    #   },
-    #   "UpdateReplacePolicy": "Retain",
-    #   "DeletionPolicy": "Retain",
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Table/Resource"
-    #   }
-    # },
+    "QMTable336670B0": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName" : "table-dynamodb-cf",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "MessageId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "TimeStamp",
+            "AttributeType": "S"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "KeySchema": [
+          {
+            "AttributeName": "MessageId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "TimeStamp",
+            "KeyType": "RANGE"
+          }
+        ],
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": true
+        },
+        "SSESpecification": {
+          "KMSMasterKeyId": {
+            "Fn::GetAtt": [
+              "KMSHubQMEncryptionKeyA80F8C05",
+              "Arn"
+            ]
+          },
+          "SSEEnabled": true,
+          "SSEType": "KMS"
+        },
+        "TimeToLiveSpecification": {
+          "AttributeName": "ExpiryTime",
+          "Enabled": true
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+    },
 
   #   "QMReporterQMReporterEventsRule0BF77282": {
   #     "Type": "AWS::Events::Rule",
