@@ -1774,78 +1774,49 @@
       }
     },
 
-  #   "QMDeploymentManagerQMDeploymentManagerLambdaEventInvokeConfig4C3821AB": {
-  #     "Type": "AWS::Lambda::EventInvokeConfig",
-  #     "Properties": {
-  #       "FunctionName": {
-  #         "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaB36F1B21"
-  #       },
-  #       "MaximumEventAgeInSeconds": 14400,
-  #       "Qualifier": "$LATEST"
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Deployment-Manager/QM-Deployment-Manager-Lambda/EventInvokeConfig/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+    "QMDeploymentManagerQMDeploymentManagerLambdaEventInvokeConfig4C3821AB": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaB36F1B21"
+        },
+        "MaximumEventAgeInSeconds": 14400,
+        "Qualifier": "$LATEST"
+      }
+    },
 
-  #   "QMHelperQMHelperFunctionServiceRole0506622D": {
-  #     "Type": "AWS::IAM::Role",
-  #     "Properties": {
-  #       "AssumeRolePolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sts:AssumeRole",
-  #             "Effect": "Allow",
-  #             "Principal": {
-  #               "Service": "lambda.amazonaws.com"
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "ManagedPolicyArns": [
-  #         {
-  #           "Fn::Join": [
-  #             "",
-  #             [
-  #               "arn:",
-  #               {
-  #                 "Ref": "AWS::Partition"
-  #               },
-  #               ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  #             ]
-  #           ]
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Helper/QM-Helper-Function/ServiceRole/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "Actions restricted on kms key ARN. Only actions that do not support resource-level permissions have * in resource",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
+    "QMHelperQMHelperFunctionServiceRole0506622D": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName" : iam-role-lambda-helper-cf,
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      }
+    },
 
   #   "QMHelperQMHelperFunction91954E97": {
   #     "Type": "AWS::Lambda::Function",
