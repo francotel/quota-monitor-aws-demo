@@ -491,6 +491,7 @@
     #     }
     #   }
     # },
+
     # "QMListManagerSQServiceList2C145D4D": {
     #   "Type": "Custom::SQServiceList",
     #   "Properties": {
@@ -513,6 +514,7 @@
     #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-ListManager/SQServiceList/Default"
     #   }
     # },
+
     # "QMListManagerSchedule2CDA6819": {
     #   "Type": "AWS::Events::Rule",
     #   "Properties": {
@@ -535,6 +537,7 @@
     #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-ListManagerSchedule/Resource"
     #   }
     # },
+
     # "QMListManagerScheduleAllowEventRulequotamonitorsqspokeQMListManagerQMListManagerFunction5A8AD0C253E1C515": {
     #   "Type": "AWS::Lambda::Permission",
     #   "Properties": {
@@ -557,6 +560,7 @@
     #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-ListManagerSchedule/AllowEventRulequotamonitorsqspokeQMListManagerQMListManagerFunction5A8AD0C2"
     #   }
     # },
+
     # "QMCWPollerQMCWPollerEventsRuleE8CD588E": {
     #   "Type": "AWS::Events::Rule",
     #   "Properties": {
@@ -581,6 +585,7 @@
     #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-CWPoller/QM-CWPoller-EventsRule/Resource"
     #   }
     # },
+
     # "QMCWPollerQMCWPollerEventsRuleAllowEventRulequotamonitorsqspokeQMCWPollerQMCWPollerLambdaB70526DA3005A260": {
     #   "Type": "AWS::Lambda::Permission",
     #   "Properties": {
@@ -603,61 +608,51 @@
     #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-CWPoller/QM-CWPoller-EventsRule/AllowEventRulequotamonitorsqspokeQMCWPollerQMCWPollerLambdaB70526DA"
     #   }
     # },
-    # "QMCWPollerQMCWPollerLambdaDeadLetterQueueE535D49E": {
-    #   "Type": "AWS::SQS::Queue",
-    #   "Properties": {
-    #     "KmsMasterKeyId": "alias/aws/sqs"
-    #   },
-    #   "UpdateReplacePolicy": "Delete",
-    #   "DeletionPolicy": "Delete",
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-CWPoller/QM-CWPoller-Lambda-Dead-Letter-Queue/Resource",
-    #     "cdk_nag": {
-    #       "rules_to_suppress": [
-    #         {
-    #           "reason": "Queue itself is dead-letter queue",
-    #           "id": "AwsSolutions-SQS3"
-    #         }
-    #       ]
-    #     }
-    #   }
-    # },
-    # "QMCWPollerQMCWPollerLambdaDeadLetterQueuePolicyC81A8B00": {
-    #   "Type": "AWS::SQS::QueuePolicy",
-    #   "Properties": {
-    #     "PolicyDocument": {
-    #       "Statement": [
-    #         {
-    #           "Action": "sqs:*",
-    #           "Condition": {
-    #             "Bool": {
-    #               "aws:SecureTransport": "false"
-    #             }
-    #           },
-    #           "Effect": "Deny",
-    #           "Principal": {
-    #             "AWS": "*"
-    #           },
-    #           "Resource": {
-    #             "Fn::GetAtt": [
-    #               "QMCWPollerQMCWPollerLambdaDeadLetterQueueE535D49E",
-    #               "Arn"
-    #             ]
-    #           }
-    #         }
-    #       ],
-    #       "Version": "2012-10-17"
-    #     },
-    #     "Queues": [
-    #       {
-    #         "Ref": "QMCWPollerQMCWPollerLambdaDeadLetterQueueE535D49E"
-    #       }
-    #     ]
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-CWPoller/QM-CWPoller-Lambda-Dead-Letter-Queue/Policy/Resource"
-    #   }
-    # },
+
+    "QMCWPollerQMCWPollerLambdaDeadLetterQueueE535D49E": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName" : "sqs-spoke-dlq-lambda-poller-cf",
+        "KmsMasterKeyId": "alias/aws/sqs"
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+    },
+
+    "QMCWPollerQMCWPollerLambdaDeadLetterQueuePolicyC81A8B00": {
+      "Type": "AWS::SQS::QueuePolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMCWPollerQMCWPollerLambdaDeadLetterQueueE535D49E",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Queues": [
+          {
+            "Ref": "QMCWPollerQMCWPollerLambdaDeadLetterQueueE535D49E"
+          }
+        ]
+      },
+    },
+
     # "QMCWPollerQMCWPollerLambdaServiceRole8985092D": {
     #   "Type": "AWS::IAM::Role",
     #   "Properties": {
