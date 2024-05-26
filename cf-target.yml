@@ -555,9 +555,6 @@
     #       }
     #     ]
     #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-CWPoller/QM-CWPoller-EventsRule/Resource"
-    #   }
     # },
 
     # "QMCWPollerQMCWPollerEventsRuleAllowEventRulequotamonitorsqspokeQMCWPollerQMCWPollerLambdaB70526DA3005A260": {
@@ -745,6 +742,7 @@
     #     }
     #   }
     # },
+
     # "QMCWPollerQMCWPollerLambda824ABE36": {
     #   "Type": "AWS::Lambda::Function",
     #   "Properties": {
@@ -824,6 +822,7 @@
     #     }
     #   }
     # },
+
     # "QMCWPollerQMCWPollerLambdaEventInvokeConfigB943EE46": {
     #   "Type": "AWS::Lambda::EventInvokeConfig",
     #   "Properties": {
@@ -845,6 +844,7 @@
     #     }
     #   }
     # },
+
     # "QMUtilizationOK588DBAE8": {
     #   "Type": "AWS::Events::Rule",
     #   "Properties": {
@@ -890,52 +890,50 @@
     #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-Utilization-OK/Resource"
     #   }
     # },
-    # "QMUtilizationOKEventsRoleC12899D6": {
-    #   "Type": "AWS::IAM::Role",
-    #   "Properties": {
-    #     "AssumeRolePolicyDocument": {
-    #       "Statement": [
-    #         {
-    #           "Action": "sts:AssumeRole",
-    #           "Effect": "Allow",
-    #           "Principal": {
-    #             "Service": "events.amazonaws.com"
-    #           }
-    #         }
-    #       ],
-    #       "Version": "2012-10-17"
-    #     }
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-Utilization-OK/EventsRole/Resource"
-    #   }
-    # },
-    # "QMUtilizationOKEventsRoleDefaultPolicyD9D7AF54": {
-    #   "Type": "AWS::IAM::Policy",
-    #   "Properties": {
-    #     "PolicyDocument": {
-    #       "Statement": [
-    #         {
-    #           "Action": "events:PutEvents",
-    #           "Effect": "Allow",
-    #           "Resource": {
-    #             "Ref": "EventBusArn"
-    #           }
-    #         }
-    #       ],
-    #       "Version": "2012-10-17"
-    #     },
-    #     "PolicyName": "QMUtilizationOKEventsRoleDefaultPolicyD9D7AF54",
-    #     "Roles": [
-    #       {
-    #         "Ref": "QMUtilizationOKEventsRoleC12899D6"
-    #       }
-    #     ]
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-Utilization-OK/EventsRole/DefaultPolicy/Resource"
-    #   }
-    # },
+
+    "QMUtilizationOKEventsRoleC12899D6": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName" : iam-role-events-sporke-cf,
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+    },
+
+    "QMUtilizationOKEventsRoleDefaultPolicyD9D7AF54": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "events:PutEvents",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "EventBusArn"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "QMUtilizationOKEventsRoleDefaultPolicyD9D7AF54",
+        "Roles": [
+          {
+            "Ref": "QMUtilizationOKEventsRoleC12899D6"
+          }
+        ]
+      },
+    },
+
     # "QMUtilizationWarn1BF84C25": {
     #   "Type": "AWS::Events::Rule",
     #   "Properties": {
