@@ -1211,6 +1211,7 @@
   #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Reporter/QM-Reporter-EventsRule/Resource"
   #     }
   #   },
+
   #   "QMReporterQMReporterEventsRuleAllowEventRulequotamonitorhubnoouQMReporterQMReporterLambda0CE086E3DDFD1F2A": {
   #     "Type": "AWS::Lambda::Permission",
   #     "Properties": {
@@ -1233,66 +1234,56 @@
   #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Reporter/QM-Reporter-EventsRule/AllowEventRulequotamonitorhubnoouQMReporterQMReporterLambda0CE086E3"
   #     }
   #   },
-  #   "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC": {
-  #     "Type": "AWS::SQS::Queue",
-  #     "Properties": {
-  #       "KmsMasterKeyId": {
-  #         "Fn::GetAtt": [
-  #           "KMSHubQMEncryptionKeyA80F8C05",
-  #           "Arn"
-  #         ]
-  #       }
-  #     },
-  #     "UpdateReplacePolicy": "Delete",
-  #     "DeletionPolicy": "Delete",
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Reporter/QM-Reporter-Lambda-Dead-Letter-Queue/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "Queue itself is dead-letter queue",
-  #             "id": "AwsSolutions-SQS3"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
-  #   "QMReporterQMReporterLambdaDeadLetterQueuePolicyE714847D": {
-  #     "Type": "AWS::SQS::QueuePolicy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sqs:*",
-  #             "Condition": {
-  #               "Bool": {
-  #                 "aws:SecureTransport": "false"
-  #               }
-  #             },
-  #             "Effect": "Deny",
-  #             "Principal": {
-  #               "AWS": "*"
-  #             },
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "Queues": [
-  #         {
-  #           "Ref": "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Reporter/QM-Reporter-Lambda-Dead-Letter-Queue/Policy/Resource"
-  #     }
-  #   },
+
+    "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName" : "sqs-dlq-lambda-reporter-cf",
+        "KmsMasterKeyId": {
+          "Fn::GetAtt": [
+            "KMSHubQMEncryptionKeyA80F8C05",
+            "Arn"
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+    },
+
+    "QMReporterQMReporterLambdaDeadLetterQueuePolicyE714847D": {
+      "Type": "AWS::SQS::QueuePolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Queues": [
+          {
+            "Ref": "QMReporterQMReporterLambdaDeadLetterQueueA0C464BC"
+          }
+        ]
+      }
+    },
+
   #   "QMReporterQMReporterLambdaServiceRoleBA4CED84": {
   #     "Type": "AWS::IAM::Role",
   #     "Properties": {
