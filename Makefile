@@ -1,73 +1,147 @@
 # Variables
 STACK_NAME := cf-stack-quota
 TEMPLATE_FILE := cf-template.yml
+SPOKE_FILE := cf-target.yml
 PROFILE := scc-aws
 REGION := us-west-2
 BUCKET_NAME := scc-infra-public-us-east-1
 S3_TEMPLATE_PATH := cloudformation/$(TEMPLATE_FILE)
+S3_SPOKE_PATH := cloudformation/$(SPOKE_FILE)
 
-# URL de la plantilla en S3
+# URLs de las plantillas en S3
 S3_TEMPLATE_URL := https://$(BUCKET_NAME).s3.amazonaws.com/$(S3_TEMPLATE_PATH)
+S3_SPOKE_URL := https://$(BUCKET_NAME).s3.amazonaws.com/$(S3_SPOKE_PATH)
 
 # Objetivo por defecto
 .PHONY: all
 all: validate deploy
 
-# Subir la plantilla a S3
+# Subir las plantillas a S3
 .PHONY: upload
-upload:
-	@echo "Subiendo la plantilla a S3..."
-	aws s3 cp $(TEMPLATE_FILE) s3://$(BUCKET_NAME)/$(S3_TEMPLATE_PATH) --profile $(PROFILE)
-	@echo "Subida completada."
+upload: upload-template upload-spoke
 
-# Validar la plantilla de CloudFormation
+.PHONY: upload-template
+upload-template:
+	@echo "Subiendo la plantilla principal a S3..."
+	aws s3 cp $(TEMPLATE_FILE) s3://$(BUCKET_NAME)/$(S3_TEMPLATE_PATH) --profile $(PROFILE)
+	@echo "Subida de la plantilla principal completada."
+
+.PHONY: upload-spoke
+upload-spoke:
+	@echo "Subiendo la plantilla secundaria a S3..."
+	aws s3 cp $(SPOKE_FILE) s3://$(BUCKET_NAME)/$(S3_SPOKE_PATH) --profile $(PROFILE)
+	@echo "Subida de la plantilla secundaria completada."
+
+# Validar las plantillas de CloudFormation
 .PHONY: validate
-validate: upload
-	@echo "Validando la plantilla de CloudFormation..."
+validate: validate-template validate-spoke
+
+.PHONY: validate-template
+validate-template: upload-template
+	@echo "Validando la plantilla principal de CloudFormation..."
 	aws cloudformation validate-template \
 		--template-url $(S3_TEMPLATE_URL) \
 		--profile $(PROFILE) \
 		--region $(REGION)
-	@echo "Validación completada."
+	@echo "Validación de la plantilla principal completada."
 
-# Desplegar la plantilla de CloudFormation
+.PHONY: validate-spoke
+validate-spoke: upload-spoke
+	@echo "Validando la plantilla secundaria de CloudFormation..."
+	aws cloudformation validate-template \
+		--template-url $(S3_SPOKE_URL) \
+		--profile $(PROFILE) \
+		--region $(REGION)
+	@echo "Validación de la plantilla secundaria completada."
+
+# Desplegar las plantillas de CloudFormation
 .PHONY: deploy
-deploy: upload
-	@echo "Desplegando la pila de CloudFormation..."
+deploy: deploy-template deploy-spoke
+
+.PHONY: deploy-template
+deploy-template: upload-template
+	@echo "Desplegando la pila principal de CloudFormation..."
 	aws cloudformation create-stack \
 		--stack-name $(STACK_NAME) \
 		--template-url $(S3_TEMPLATE_URL) \
 		--profile $(PROFILE) \
 		--region $(REGION)
-	@echo "Despliegue iniciado. Puedes monitorear el progreso en la consola de AWS."
+	@echo "Despliegue de la pila principal iniciado. Puedes monitorear el progreso en la consola de AWS."
 
-# Actualizar la pila de CloudFormation (redesplegar cambios)
+.PHONY: deploy-spoke
+deploy-spoke: upload-spoke
+	@echo "Desplegando la pila secundaria de CloudFormation..."
+	aws cloudformation create-stack \
+		--stack-name $(STACK_NAME)-spoke \
+		--template-url $(S3_SPOKE_URL) \
+		--profile $(PROFILE) \
+		--region $(REGION)
+	@echo "Despliegue de la pila secundaria iniciado. Puedes monitorear el progreso en la consola de AWS."
+
+# Actualizar las pilas de CloudFormation (redesplegar cambios)
 .PHONY: update
-update: upload
-	@echo "Actualizando la pila de CloudFormation..."
+update: update-template update-spoke
+
+.PHONY: update-template
+update-template: upload-template
+	@echo "Actualizando la pila principal de CloudFormation..."
 	aws cloudformation update-stack \
 		--stack-name $(STACK_NAME) \
 		--template-url $(S3_TEMPLATE_URL) \
 		--profile $(PROFILE) \
 		--region $(REGION) \
 		--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
-	@echo "Actualización iniciada. Puedes monitorear el progreso en la consola de AWS."
+	@echo "Actualización de la pila principal iniciada. Puedes monitorear el progreso en la consola de AWS."
 
-# Eliminar la pila de CloudFormation
+.PHONY: update-spoke
+update-spoke: upload-spoke
+	@echo "Actualizando la pila secundaria de CloudFormation..."
+	aws cloudformation update-stack \
+		--stack-name $(STACK_NAME)-spoke \
+		--template-url $(S3_SPOKE_URL) \
+		--profile $(PROFILE) \
+		--region $(REGION) \
+		--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+	@echo "Actualización de la pila secundaria iniciada. Puedes monitorear el progreso en la consola de AWS."
+
+# Eliminar las pilas de CloudFormation
 .PHONY: delete
-delete:
-	@echo "Eliminando la pila de CloudFormation..."
+delete: delete-template delete-spoke
+
+.PHONY: delete-template
+delete-template:
+	@echo "Eliminando la pila principal de CloudFormation..."
 	aws cloudformation delete-stack \
 		--stack-name $(STACK_NAME) \
 		--profile $(PROFILE) \
 		--region $(REGION)
-	@echo "Eliminación iniciada. Puedes monitorear el progreso en la consola de AWS."
+	@echo "Eliminación de la pila principal iniciada. Puedes monitorear el progreso en la consola de AWS."
 
-# Describir la pila de CloudFormation
+.PHONY: delete-spoke
+delete-spoke:
+	@echo "Eliminando la pila secundaria de CloudFormation..."
+	aws cloudformation delete-stack \
+		--stack-name $(STACK_NAME)-spoke \
+		--profile $(PROFILE) \
+		--region $(REGION)
+	@echo "Eliminación de la pila secundaria iniciada. Puedes monitorear el progreso en la consola de AWS."
+
+# Describir las pilas de CloudFormation
 .PHONY: describe
-describe:
-	@echo "Describiendo la pila de CloudFormation..."
+describe: describe-template describe-spoke
+
+.PHONY: describe-template
+describe-template:
+	@echo "Describiendo la pila principal de CloudFormation..."
 	aws cloudformation describe-stacks \
 		--stack-name $(STACK_NAME) \
+		--profile $(PROFILE) \
+		--region $(REGION)
+
+.PHONY: describe-spoke
+describe-spoke:
+	@echo "Describiendo la pila secundaria de CloudFormation..."
+	aws cloudformation describe-stacks \
+		--stack-name $(STACK_NAME)-spoke \
 		--profile $(PROFILE) \
 		--region $(REGION)
