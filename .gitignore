@@ -1,0 +1,47 @@
+# Ignorar archivos de configuración y credenciales de AWS
+*.pem
+*.key
+*.crt
+.aws/
+
+# Ignorar archivos de entorno
+.env
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de logs
+*.log
+
+# Ignorar archivos y carpetas de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignorar archivos de nodos (Node.js)
+node_modules/
+npm-debug.log
+
+# Ignorar archivos de empaquetado
+*.zip
+*.tar.gz
+*.rar
+
+# Ignorar Makefile
+Makefile
+
+# Ignorar plantillas de CloudFormation subidas a S3
+# cloudformation/*.yml
+
+# Ignorar archivos temporales de edición
+*.swp
+*.bak
+*.tmp
+
+# Ignorar configuraciones específicas del IDE/editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
