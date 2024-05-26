@@ -495,51 +495,45 @@
     #   "DeletionPolicy": "Delete",
     # },
 
-    # "QMListManagerSchedule2CDA6819": {
-    #   "Type": "AWS::Events::Rule",
-    #   "Properties": {
-    #     "Description": "SO0005 quota-monitor-for-aws - quota-monitor-sq-spoke-EventsRule",
-    #     "ScheduleExpression": "rate(30 days)",
-    #     "State": "ENABLED",
-    #     "Targets": [
-    #       {
-    #         "Arn": {
-    #           "Fn::GetAtt": [
-    #             "QMListManagerQMListManagerFunction1F09A88F",
-    #             "Arn"
-    #           ]
-    #         },
-    #         "Id": "Target0"
-    #       }
-    #     ]
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-ListManagerSchedule/Resource"
-    #   }
-    # },
+    "QMListManagerSchedule2CDA6819": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - quota-monitor-sq-spoke-EventsRule",
+        "ScheduleExpression": "rate(30 days)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "QMListManagerQMListManagerFunction1F09A88F",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+    },
 
-    # "QMListManagerScheduleAllowEventRulequotamonitorsqspokeQMListManagerQMListManagerFunction5A8AD0C253E1C515": {
-    #   "Type": "AWS::Lambda::Permission",
-    #   "Properties": {
-    #     "Action": "lambda:InvokeFunction",
-    #     "FunctionName": {
-    #       "Fn::GetAtt": [
-    #         "QMListManagerQMListManagerFunction1F09A88F",
-    #         "Arn"
-    #       ]
-    #     },
-    #     "Principal": "events.amazonaws.com",
-    #     "SourceArn": {
-    #       "Fn::GetAtt": [
-    #         "QMListManagerSchedule2CDA6819",
-    #         "Arn"
-    #       ]
-    #     }
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-ListManagerSchedule/AllowEventRulequotamonitorsqspokeQMListManagerQMListManagerFunction5A8AD0C2"
-    #   }
-    # },
+    "QMListManagerScheduleAllowEventRulequotamonitorsqspokeQMListManagerQMListManagerFunction5A8AD0C253E1C515": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "QMListManagerQMListManagerFunction1F09A88F",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "QMListManagerSchedule2CDA6819",
+            "Arn"
+          ]
+        }
+      },
+    },
 
     # "QMCWPollerQMCWPollerEventsRuleE8CD588E": {
     #   "Type": "AWS::Events::Rule",
@@ -1034,48 +1028,48 @@
     #   }
     # },
 
-    # "QMUtilizationErr3AEC9915": {
-    #   "Type": "AWS::Events::Rule",
-    #   "Properties": {
-    #     "Description": "SO0005 quota-monitor-for-aws - quota-monitor-sq-spoke-EventsRule",
-    #     "EventBusName": {
-    #       "Ref": "QMSpokeBus1D13B121"
-    #     },
-    #     "EventPattern": {
-    #       "account": [
-    #         {
-    #           "Ref": "AWS::AccountId"
-    #         }
-    #       ],
-    #       "detail": {
-    #         "status": [
-    #           "ERROR"
-    #         ]
-    #       },
-    #       "detail-type": [
-    #         "Service Quotas Utilization Notification"
-    #       ],
-    #       "source": [
-    #         "aws-solutions.quota-monitor"
-    #       ]
-    #     },
-    #     "State": "ENABLED",
-    #     "Targets": [
-    #       {
-    #         "Arn": {
-    #           "Ref": "EventBusArn"
-    #         },
-    #         "Id": "Target0",
-    #         "RoleArn": {
-    #           "Fn::GetAtt": [
-    #             "QMUtilizationErrEventsRoleAAC90710",
-    #             "Arn"
-    #           ]
-    #         }
-    #       }
-    #     ]
-    #   },
-    # },
+    "QMUtilizationErr3AEC9915": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - quota-monitor-sq-spoke-EventsRule",
+        "EventBusName": {
+          "Ref": "QMSpokeBus1D13B121"
+        },
+        "EventPattern": {
+          "account": [
+            {
+              "Ref": "AWS::AccountId"
+            }
+          ],
+          "detail": {
+            "status": [
+              "ERROR"
+            ]
+          },
+          "detail-type": [
+            "Service Quotas Utilization Notification"
+          ],
+          "source": [
+            "aws-solutions.quota-monitor"
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "EventBusArn"
+            },
+            "Id": "Target0",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "QMUtilizationErrEventsRoleAAC90710",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      },
+    },
 
     "QMUtilizationErrEventsRoleAAC90710": {
       "Type": "AWS::IAM::Role",
