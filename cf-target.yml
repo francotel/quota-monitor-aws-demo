@@ -330,47 +330,33 @@
       ],
     },
 
-    # "QMListManagerQMListManagerFunctionEventInvokeConfigDDD15BD1": {
-    #   "Type": "AWS::Lambda::EventInvokeConfig",
-    #   "Properties": {
-    #     "FunctionName": {
-    #       "Ref": "QMListManagerQMListManagerFunction1F09A88F"
-    #     },
-    #     "MaximumEventAgeInSeconds": 14400,
-    #     "Qualifier": "$LATEST"
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-ListManager/QM-ListManager-Function/EventInvokeConfig/Resource",
-    #     "cdk_nag": {
-    #       "rules_to_suppress": [
-    #         {
-    #           "reason": "GovCloud regions support only up to nodejs 16, risk is tolerable",
-    #           "id": "AwsSolutions-L1"
-    #         }
-    #       ]
-    #     }
-    #   }
-    # },
+    "QMListManagerQMListManagerFunctionEventInvokeConfigDDD15BD1": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "QMListManagerQMListManagerFunction1F09A88F"
+        },
+        "MaximumEventAgeInSeconds": 14400,
+        "Qualifier": "$LATEST"
+      },
+    },
 
-    # "QMListManagerQMListManagerFunctionDynamoDBEventSourcequotamonitorsqspokeSQServiceTableDFB54B66D184A01F": {
-    #   "Type": "AWS::Lambda::EventSourceMapping",
-    #   "Properties": {
-    #     "BatchSize": 1,
-    #     "EventSourceArn": {
-    #       "Fn::GetAtt": [
-    #         "SQServiceTable0182B2D0",
-    #         "StreamArn"
-    #       ]
-    #     },
-    #     "FunctionName": {
-    #       "Ref": "QMListManagerQMListManagerFunction1F09A88F"
-    #     },
-    #     "StartingPosition": "LATEST"
-    #   },
-    #   "Metadata": {
-    #     "aws:cdk:path": "quota-monitor-sq-spoke/QM-ListManager/QM-ListManager-Function/DynamoDBEventSource:quotamonitorsqspokeSQServiceTableDFB54B66/Resource"
-    #   }
-    # },
+    "QMListManagerQMListManagerFunctionDynamoDBEventSourcequotamonitorsqspokeSQServiceTableDFB54B66D184A01F": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "Properties": {
+        "BatchSize": 1,
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "SQServiceTable0182B2D0",
+            "StreamArn"
+          ]
+        },
+        "FunctionName": {
+          "Ref": "QMListManagerQMListManagerFunction1F09A88F"
+        },
+        "StartingPosition": "LATEST"
+      },
+    },
 
     "QMListManagerQMListManagerProviderframeworkonEventServiceRoleB85FCC1C": {
       "Type": "AWS::IAM::Role",
