@@ -1334,6 +1334,7 @@
   #       }
   #     }
   #   },
+
   #   "QMReporterQMReporterLambdaServiceRoleDefaultPolicyC6B87A76": {
   #     "Type": "AWS::IAM::Policy",
   #     "Properties": {
@@ -1424,6 +1425,7 @@
   #       }
   #     }
   #   },
+
   #   "QMReporterQMReporterLambda7D98A6E4": {
   #     "Type": "AWS::Lambda::Function",
   #     "Properties": {
@@ -1574,6 +1576,7 @@
   #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Deployment-Manager/QM-Deployment-Manager-EventsRule/Resource"
   #     }
   #   },
+
   #   "QMDeploymentManagerQMDeploymentManagerEventsRuleAllowEventRulequotamonitorhubnoouQMDeploymentManagerQMDeploymentManagerLambda69BB20E9F676A8A9": {
   #     "Type": "AWS::Lambda::Permission",
   #     "Properties": {
@@ -1596,66 +1599,56 @@
   #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Deployment-Manager/QM-Deployment-Manager-EventsRule/AllowEventRulequotamonitorhubnoouQMDeploymentManagerQMDeploymentManagerLambda69BB20E9"
   #     }
   #   },
-  #   "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2": {
-  #     "Type": "AWS::SQS::Queue",
-  #     "Properties": {
-  #       "KmsMasterKeyId": {
-  #         "Fn::GetAtt": [
-  #           "KMSHubQMEncryptionKeyA80F8C05",
-  #           "Arn"
-  #         ]
-  #       }
-  #     },
-  #     "UpdateReplacePolicy": "Delete",
-  #     "DeletionPolicy": "Delete",
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Deployment-Manager/QM-Deployment-Manager-Lambda-Dead-Letter-Queue/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "Queue itself is dead-letter queue",
-  #             "id": "AwsSolutions-SQS3"
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   },
-  #   "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueuePolicy6B59E185": {
-  #     "Type": "AWS::SQS::QueuePolicy",
-  #     "Properties": {
-  #       "PolicyDocument": {
-  #         "Statement": [
-  #           {
-  #             "Action": "sqs:*",
-  #             "Condition": {
-  #               "Bool": {
-  #                 "aws:SecureTransport": "false"
-  #               }
-  #             },
-  #             "Effect": "Deny",
-  #             "Principal": {
-  #               "AWS": "*"
-  #             },
-  #             "Resource": {
-  #               "Fn::GetAtt": [
-  #                 "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2",
-  #                 "Arn"
-  #               ]
-  #             }
-  #           }
-  #         ],
-  #         "Version": "2012-10-17"
-  #       },
-  #       "Queues": [
-  #         {
-  #           "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Deployment-Manager/QM-Deployment-Manager-Lambda-Dead-Letter-Queue/Policy/Resource"
-  #     }
-  #   },
+
+    "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName" : "sqs-dlq-lambda-manager-cf",
+        "KmsMasterKeyId": {
+          "Fn::GetAtt": [
+            "KMSHubQMEncryptionKeyA80F8C05",
+            "Arn"
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+
+    "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueuePolicy6B59E185": {
+      "Type": "AWS::SQS::QueuePolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sqs:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Queues": [
+          {
+            "Ref": "QMDeploymentManagerQMDeploymentManagerLambdaDeadLetterQueue9B4636C2"
+          }
+        ]
+      }
+    },
+
   #   "QMDeploymentManagerQMDeploymentManagerLambdaServiceRole84304F72": {
   #     "Type": "AWS::IAM::Role",
   #     "Properties": {
