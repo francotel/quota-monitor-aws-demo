@@ -686,69 +686,63 @@
       }
     },
 
-  #   "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRule5BDCD4FD": {
-  #     "Type": "AWS::Events::Rule",
-  #     "Properties": {
-  #       "Description": "SO0005 quota-monitor-for-aws - QM-SNSPublisherFunction-EventsRule",
-  #       "EventBusName": {
-  #         "Ref": "QMBusFF5C6C0C"
-  #       },
-  #       "EventPattern": {
-  #         "detail": {
-  #           "status": [
-  #             "WARN",
-  #             "ERROR"
-  #           ]
-  #         },
-  #         "detail-type": [
-  #           "Trusted Advisor Check Item Refresh Notification",
-  #           "Service Quotas Utilization Notification"
-  #         ],
-  #         "source": [
-  #           "aws.trustedadvisor",
-  #           "aws-solutions.quota-monitor"
-  #         ]
-  #       },
-  #       "State": "ENABLED",
-  #       "Targets": [
-  #         {
-  #           "Arn": {
-  #             "Fn::GetAtt": [
-  #               "QMSNSPublisherFunctionQMSNSPublisherFunctionLambda8BD2DBC1",
-  #               "Arn"
-  #             ]
-  #           },
-  #           "Id": "Target0"
-  #         }
-  #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SNSPublisherFunction/QM-SNSPublisherFunction-EventsRule/Resource"
-  #     }
-  #   },
+    "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRule5BDCD4FD": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "SO0005 quota-monitor-for-aws - QM-SNSPublisherFunction-EventsRule",
+        "EventBusName": {
+          "Ref": "QMBusFF5C6C0C"
+        },
+        "EventPattern": {
+          "detail": {
+            "status": [
+              "WARN",
+              "ERROR"
+            ]
+          },
+          "detail-type": [
+            "Trusted Advisor Check Item Refresh Notification",
+            "Service Quotas Utilization Notification"
+          ],
+          "source": [
+            "aws.trustedadvisor",
+            "aws-solutions.quota-monitor"
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "QMSNSPublisherFunctionQMSNSPublisherFunctionLambda8BD2DBC1",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
   
-  #   "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRuleAllowEventRulequotamonitorhubnoouQMSNSPublisherFunctionQMSNSPublisherFunctionLambda76203A7F3F46BC24": {
-  #     "Type": "AWS::Lambda::Permission",
-  #     "Properties": {
-  #       "Action": "lambda:InvokeFunction",
-  #       "FunctionName": {
-  #         "Fn::GetAtt": [
-  #           "QMSNSPublisherFunctionQMSNSPublisherFunctionLambda8BD2DBC1",
-  #           "Arn"
-  #         ]
-  #       },
-  #       "Principal": "events.amazonaws.com",
-  #       "SourceArn": {
-  #         "Fn::GetAtt": [
-  #           "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRule5BDCD4FD",
-  #           "Arn"
-  #         ]
-  #       }
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-SNSPublisherFunction/QM-SNSPublisherFunction-EventsRule/AllowEventRulequotamonitorhubnoouQMSNSPublisherFunctionQMSNSPublisherFunctionLambda76203A7F"
-  #     }
-  #   },
+    "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRuleAllowEventRulequotamonitorhubnoouQMSNSPublisherFunctionQMSNSPublisherFunctionLambda76203A7F3F46BC24": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "QMSNSPublisherFunctionQMSNSPublisherFunctionLambda8BD2DBC1",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "QMSNSPublisherFunctionQMSNSPublisherFunctionEventsRule5BDCD4FD",
+            "Arn"
+          ]
+        }
+      }
+    },
   
     "QMSNSPublisherFunctionQMSNSPublisherFunctionLambdaDeadLetterQueue72FF519A": {
       "Type": "AWS::SQS::Queue", 
@@ -2090,25 +2084,6 @@
   #           "Ref": "QMHelperQMHelperProviderframeworkonEventServiceRole4A1EBBAB"
   #         }
   #       ]
-  #     },
-  #     "Metadata": {
-  #       "aws:cdk:path": "quota-monitor-hub-no-ou/QM-Helper/QM-Helper-Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource",
-  #       "cdk_nag": {
-  #         "rules_to_suppress": [
-  #           {
-  #             "reason": "AWSLambdaBasicExecutionRole added by cdk only gives write permissions for CW logs",
-  #             "id": "AwsSolutions-IAM4"
-  #           },
-  #           {
-  #             "reason": "IAM policy is appropriated scoped, ARN is provided in policy resource, false warning",
-  #             "id": "AwsSolutions-IAM5"
-  #           },
-  #           {
-  #             "reason": "Lambda function created by Provider L2 construct uses nodejs 14, risk is tolerable",
-  #             "id": "AwsSolutions-L1"
-  #           }
-  #         ]
-  #       }
   #     }
   #   },
 
